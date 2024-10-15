@@ -1,5 +1,4 @@
     import java.util.Random;
-import java.util.random.*;
     public class Main{
         public static Integer[] orderedArray(Integer size){
             final Integer[] array=new Integer[size];
@@ -7,7 +6,7 @@ import java.util.random.*;
             return array;
         } 
         public static Integer[] reverseArray(Integer size){
-            final Integer[] array=new Integer[size];
+            final Integer[] array=new Integer[size+1];
             for(Integer i=size;i>=0;i--)array[i]=(i);
             return array;
         } 
@@ -15,7 +14,7 @@ import java.util.random.*;
             final Integer[] array=new Integer[size];
             for(Integer i=0;i<size;i++){
                 Random random= new Random();
-                Integer randomInt = random.nextInt(100);
+                Integer randomInt = random.nextInt(size);
                 array[i]=randomInt;
             }
             return array;
@@ -49,19 +48,23 @@ import java.util.random.*;
             }
 
         }  
-        public static void main(String[] args){
+        public static void main(String[] args){     
+            for(Integer i=10;Math.log(i)/Math.log(10)<5;i*=10){
+                System.out.println("Array size:"+i);
+                for(Integer j=1;j<=3;j++){
+                    for(Integer s=1;s<=4;s++){
+                        long startTime = System.nanoTime();
 
-            for(Integer i=1;i<=4;i++){
-                long startTime = System.nanoTime();
-
-                //bubblesortnochange=1
-                //bubblesortwhileneeded=2
-                //quicksortgpt=3
-                //selectionsortgpt=4
-                
-                chooseSorting(i).sort(orderedArray(10));
-                long endTime = System.nanoTime();  
-                System.out.println("It took " + (endTime - startTime)+"ns");
+                        //bubblesortnochange=1
+                        //bubblesortwhileneeded=2
+                        //quicksortgpt=3
+                        //selectionsortgpt=4
+                        
+                        chooseSorting(s).sort(chooseArray(j,i));
+                        long endTime = System.nanoTime();  
+                        System.out.println("    It took " + (endTime - startTime)+"ns");
+                    }
+                }
             }
         } 
     }
