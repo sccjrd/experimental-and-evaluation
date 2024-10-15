@@ -21,30 +21,47 @@ import java.util.random.*;
             return array;
         } 
         public static Sorter<Integer> chooseSorting(Integer sortingAlg){
+            Sorter<Integer> sorting;
             switch (sortingAlg) {
                 case 1:
-                    return Sorter<Integer> sorting=new BubbleSortUntilNoChange<>();
-                    break;
+                    return sorting=new BubbleSortUntilNoChange<>();
                 case 2:
-                    return Sorter<Integer> sorting=new BubbleSortUntilNoChange<>();
-                    break;
+                    return sorting=new BubbleSortWhileNeeded<>();
                 case 3:
-                    return Sorter<Integer> sorting=new BubbleSortUntilNoChange<>();
-                    break;
+                    return sorting=new QuickSortGPT<>();
                 case 4:
-                    return Sorter<Integer> sorting=new BubbleSortUntilNoChange<>();
-                    break;
+                    return sorting=new SelectionSortGPT<>();
+                default:
+                    throw new AssertionError("Errore critico generato apposta!");
             }
         }
+        public static Integer[] chooseArray(Integer arrayN,Integer size){
+            Integer[] array;
+            switch (arrayN) {
+                case 1:
+                    return array=orderedArray(size);
+                case 2:
+                    return array=reverseArray(size);
+                case 3:
+                    return array=randomArray(size);
+                default:
+                    throw new AssertionError("Errore critico generato apposta!");
+            }
+
+        }  
         public static void main(String[] args){
-            long startTime = System.nanoTime();
-            //bubblesortnochange=1
-            //bubblesortwhileneeded=2
-            //quicksortgpt=3
-            //selectionsortgpt=4
-            
-            chooseSorting(null).sort(orderedArray(10));
-            long endTime = System.nanoTime();  
-            System.out.println("It took " + (endTime - startTime)+"ns");
+
+            for(Integer i=1;i<=4;i++){
+                long startTime = System.nanoTime();
+
+                //bubblesortnochange=1
+                //bubblesortwhileneeded=2
+                //quicksortgpt=3
+                //selectionsortgpt=4
+                
+                chooseSorting(i).sort(orderedArray(10));
+                long endTime = System.nanoTime();  
+                System.out.println("It took " + (endTime - startTime)+"ns");
+            }
         } 
     }
