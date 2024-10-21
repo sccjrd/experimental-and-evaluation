@@ -54,7 +54,13 @@
                 for(Integer j=1;j<=3;j++){
                     for(Integer s=1;s<=4;s++){
                         long startTime = System.nanoTime();
-
+                        var sortName="bubblesort no change";
+                        var arrayName="an ordered";
+                        if(s==2)sortName="bubblesort while needed";
+                        if(s==3)sortName="quicksortgpt";
+                        if(s==4)sortName="selectionsortgpt";
+                        if(j==2)arrayName="an inverse ordered";
+                        if(j==3)arrayName="a random";
                         //bubblesortnochange=1
                         //bubblesortwhileneeded=2
                         //quicksortgpt=3
@@ -62,8 +68,9 @@
                         
                         chooseSorting(s).sort(chooseArray(j,i));
                         long endTime = System.nanoTime();  
-                        System.out.println("    It took " + (endTime - startTime)+"ns");
+                        System.out.println("    It took " + (endTime - startTime)+"ns using "+sortName+ " in "+arrayName+" array.");
                     }
+                    System.out.println();
                 }
             }
         } 
