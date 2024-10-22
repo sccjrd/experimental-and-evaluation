@@ -1,4 +1,7 @@
-    import java.util.Random;
+
+import java.util.Random;
+import java.io.FileWriter;
+import java.io.IOException;
     public class Main{
         public static Integer[] orderedArray(Integer size){
             final Integer[] array=new Integer[size];
@@ -31,7 +34,7 @@
                 case 4:
                     return sorting=new SelectionSortGPT<>();
                 default:
-                    throw new AssertionError("Errore critico generato apposta!");
+                    throw new AssertionError("Undefined sorting algorithm");
             }
         }
         public static Integer[] chooseArray(Integer arrayN,Integer size){
@@ -41,37 +44,34 @@
                     return array=orderedArray(size);
                 case 2:
                     return array=reverseArray(size);
-                case 3:
+                case 3: 
                     return array=randomArray(size);
                 default:
-                    throw new AssertionError("Errore critico generato apposta!");
+                    throw new AssertionError("Undefined array type");
             }
 
         }  
         public static void main(String[] args){     
-            for(Integer i=10;Math.log(i)/Math.log(10)<5;i*=10){
-                System.out.println("Array size:"+i);
-                for(Integer j=1;j<=3;j++){
-                    for(Integer s=1;s<=4;s++){
-                        long startTime = System.nanoTime();
-                        var sortName="bubblesort no change";
-                        var arrayName="an ordered";
-                        if(s==2)sortName="bubblesort while needed";
-                        if(s==3)sortName="quicksortgpt";
-                        if(s==4)sortName="selectionsortgpt";
-                        if(j==2)arrayName="an inverse ordered";
-                        if(j==3)arrayName="a random";
-                        //bubblesortnochange=1
-                        //bubblesortwhileneeded=2
-                        //quicksortgpt=3
-                        //selectionsortgpt=4
-                        
-                        chooseSorting(s).sort(chooseArray(j,i));
-                        long endTime = System.nanoTime();  
-                        System.out.println("    It took " + (endTime - startTime)+"ns using "+sortName+ " in "+arrayName+" array.");
+            try (FileWriter writer = new FileWriter("experimental-and-evaluation/Assignment_1/Results.csv", true)) {
+                for(Integer i=10;Math.log(i)/Math.log(10)<5;i*=10){
+                    for(Integer j=1;j<=3;j++){
+                        for(Integer s=1;s<=4;s++){
+                            var sortName="bubblesort no change";
+                            var arrayName="ordered";
+                            if(s==2)sortName="bubblesort while needed";
+                            if(s==3)sortName="quicksortgpt";
+                            if(s==4)sortName="selectionsortgpt";
+                            if(j==2)arrayName="inverse ordered";
+                            if(j==3)arrayName="random";
+                            long startTime = System.nanoTime();
+                            chooseSorting(s).sort(chooseArray(j,i));
+                            long endTime = System.nanoTime();  
+                            writer.write(i + "," + sortName + "," + arrayName + "," + (endTime - startTime) + "\n");
+                        }
                     }
-                    System.out.println();
-                }
-            }
-        } 
-    }
+                } 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } 
+        }
+    }   
