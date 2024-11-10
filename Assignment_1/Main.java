@@ -1,19 +1,20 @@
-
 import java.util.Random;
 import java.io.FileWriter;
 import java.io.IOException;
     public class Main{
-        public static Integer[] orderedArray(Integer size){
+
+        // Int array
+        public static Integer[] orderedIntArray(Integer size){
             final Integer[] array=new Integer[size];
             for(Integer i=0;i<size;i++)array[i]=(i);
             return array;
         } 
-        public static Integer[] reverseArray(Integer size){
+        public static Integer[] reverseIntArray(Integer size){
             final Integer[] array=new Integer[size+1];
             for(Integer i=size;i>=0;i--)array[i]=(i);
             return array;
         } 
-        public static Integer[] randomArray(Integer size){
+        public static Integer[] randomIntArray(Integer size){
             final Integer[] array=new Integer[size];
             for(Integer i=0;i<size;i++){
                 Random random= new Random();
@@ -21,8 +22,63 @@ import java.io.IOException;
                 array[i]=randomInt;
             }
             return array;
-        } 
-        public static Sorter<Integer> chooseSorting(Integer sortingAlg){
+        }
+
+        // String array
+        public static String[] orderedStringArray(Integer size){
+            final String[] array=new String[size];
+            for(Integer i=0;i<size;i++)array[i]=i.toString();
+            return array;
+        }
+
+        public static String[] reverseStringArray(Integer size){
+            final String[] array=new String[size+1];
+            for(Integer i=size;i>=0;i--)array[i]=i.toString();
+            return array;
+        }
+
+        public static String[] randomStringArray(Integer size){
+            final String[] array=new String[size];
+            for(Integer i=0;i<size;i++){
+                Random random= new Random();
+                String randomString = Integer.toString(random.nextInt(size));
+                array[i]=randomString;
+            }
+            return array;
+        }
+
+
+        // Choose array
+        public static <T> T[] chooseArray(Class<T> type,Integer i, Integer size){
+            if(type==Integer.class){
+                switch (i) {
+                    case 1:
+                        return (T[])orderedIntArray(size);
+                    case 2:
+                        return (T[])reverseIntArray(size);
+                    case 3:
+                        return (T[])randomIntArray(size);
+                    default:
+                         throw new AssertionError("Undefined array type");
+                }
+            }
+            if(type==String.class){
+                switch (i) {
+                    case 1:
+                        return (T[])orderedStringArray(i);
+                    case 2:
+                        return (T[])reverseStringArray(i);
+                    case 3:
+                        return (T[])randomStringArray(i);
+                    default:
+                    throw new AssertionError("Undefined array  type");
+                }
+            }
+            throw new AssertionError("Undefined Class type");
+        }
+
+        // Choose sorting
+        public static Sorter<Integer> chooseSortingInteger(Integer sortingAlg){
             Sorter<Integer> sorting;
             switch (sortingAlg) {
                 case 1:
@@ -37,41 +93,87 @@ import java.io.IOException;
                     throw new AssertionError("Undefined sorting algorithm");
             }
         }
-        public static Integer[] chooseArray(Integer arrayN,Integer size){
-            Integer[] array;
-            switch (arrayN) {
-                case 1:
-                    return array=orderedArray(size);
-                case 2:
-                    return array=reverseArray(size);
-                case 3: 
-                    return array=randomArray(size);
-                default:
-                    throw new AssertionError("Undefined array type");
-            }
 
-        }  
+        public static Sorter<String> chooseSortingString(Integer sortingAlg){
+            Sorter<String> sorting;
+            switch (sortingAlg) {
+                case 1:
+                    return sorting=new BubbleSortUntilNoChange<>();
+                case 2:
+                    return sorting=new BubbleSortWhileNeeded<>();
+                case 3:
+                    return sorting=new QuickSortGPT<>();
+                case 4:
+                    return sorting=new SelectionSortGPT<>();
+                default:
+                    throw new AssertionError("Undefined sorting algorithm");
+            }
+        }
+
+        public static <T extends Comparable<T>> Sorter<T> chooseSorting(Integer sortingAlg, Class<T> type){
+            Sorter<T> sorting;
+            switch (sortingAlg) {
+                case 1:
+                    return sorting=new BubbleSortUntilNoChange<>();
+                case 2:
+                    return sorting=new BubbleSortWhileNeeded<>();
+                case 3:
+                    return sorting=new QuickSortGPT<>();
+                case 4:
+                    return sorting=new SelectionSortGPT<>();
+                default:
+                    throw new AssertionError("Undefined sorting algorithm");
+            }
+        }
+        
         public static void main(String[] args){     
-            try (FileWriter writer = new FileWriter("experimental-and-evaluation/Assignment_1/Results.csv", true)) {
-                for(Integer i=10;Math.log(i)/Math.log(10)<5;i*=10){
-                    for(Integer j=1;j<=3;j++){
+            try (FileWriter writer = new FileWriter("ResultsInteger.csv", true)) {
+                Integer[] sizes = {20, 400, 10000};
+                for(Integer size:sizes){
+                    for(Integer t=1;t<=3;t++){
                         for(Integer s=1;s<=4;s++){
+                            for(Integer iterations=0;iterations<100;iterations++){
                             var sortName="bubblesort no change";
                             var arrayName="ordered";
                             if(s==2)sortName="bubblesort while needed";
                             if(s==3)sortName="quicksortgpt";
                             if(s==4)sortName="selectionsortgpt";
-                            if(j==2)arrayName="inverse ordered";
-                            if(j==3)arrayName="random";
+                            if(t==2)arrayName="inverse ordered";
+                            if(t==3)arrayName="random";
                             long startTime = System.nanoTime();
-                            chooseSorting(s).sort(chooseArray(j,i));
+                            chooseSorting(s, Integer.class).sort(chooseArray(Integer.class,t,size));
                             long endTime = System.nanoTime();  
-                            writer.write(i + "," + sortName + "," + arrayName + "," + (endTime - startTime) + "\n");
+                            writer.write(size + "," + sortName + "," + arrayName + "," + (endTime - startTime) + "\n");
+                            }
                         }
                     }
-                } 
-                } catch (IOException e) {
+                }
+            } catch (IOException e) {
                     e.printStackTrace();
-                } 
+            }
+            try (FileWriter writer = new FileWriter("ResultsString.csv", true)) {
+                Integer[] sizes = {20, 400, 10000};
+                for(Integer i:sizes){
+                    for(Integer j=1;j<=3;j++){
+                        for(Integer s=1;s<=4;s++){
+                            for(Integer iterations=0;iterations<100;iterations++){
+                                var sortName="bubblesort no change";
+                                var arrayName="ordered";
+                                if(s==2)sortName="bubblesort while needed";
+                                if(s==3)sortName="quicksortgpt";
+                                if(s==4)sortName="selectionsortgpt";
+                                if(j==2)arrayName="inverse ordered";
+                                if(j==3)arrayName="random";
+                                long startTime = System.nanoTime();
+                                chooseSortingString(s).sort(chooseArray(String.class,j,i));
+                                long endTime = System.nanoTime();  
+                                writer.write(i + "," + sortName + "," + arrayName + "," + (endTime - startTime) + "\n");
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
         }
     }   
