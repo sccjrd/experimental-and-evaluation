@@ -18,7 +18,7 @@ import java.io.IOException;
             final Integer[] array=new Integer[size];
             for(Integer i=0;i<size;i++){
                 Random random= new Random();
-                Integer randomInt = random.nextInt(size);
+                Integer randomInt = random.nextInt();
                 array[i]=randomInt;
             }
             return array;
@@ -41,7 +41,7 @@ import java.io.IOException;
             final String[] array=new String[size];
             for(Integer i=0;i<size;i++){
                 Random random= new Random();
-                String randomString = Integer.toString(random.nextInt(size));
+                String randomString = Integer.toString(random.nextInt());
                 array[i]=randomString;
             }
             return array;
@@ -113,10 +113,10 @@ import java.io.IOException;
         public static void main(String[] args){     
             try (FileWriter writer = new FileWriter("ResultsInteger.csv", true)) {
                 Integer[] sizes = {20, 400, 10000};
-                int i=0;
-                writer.write("Iteration, ArraySize,Algorithm,Type,Time(ns)\n");
+                writer.write("Iteration,ArraySize,Algorithm,Type,Time(ns)\n");
                 for(Integer size:sizes){                    
                     for(Integer s=1;s<=4;s++){
+                        int i=0;
                         for(Integer iteration=0;iteration<100;iteration++){
                             for(Integer t=1;t<=3;t++){
                                 var sortName="bubblesort no change";
@@ -145,10 +145,10 @@ import java.io.IOException;
             }
             try (FileWriter writer = new FileWriter("ResultsString.csv", true)) {
                 Integer[] sizes = {20, 400, 10000};
-                int i=0;
-                writer.write("Iteration, ArraySize,Algorithm,Type,Time(ns)\n");
+                writer.write("Iteration,ArraySize,Algorithm,Type,Time(ns)\n");
                 for(Integer size:sizes){
                     for(Integer s=1;s<=4;s++){
+                        int i=0;
                             for(Integer iteration=0;iteration<100;iteration++){
                                 for(Integer j=1;j<=3;j++){
                                 var sortName="bubblesort no change";
