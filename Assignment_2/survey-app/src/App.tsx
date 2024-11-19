@@ -1,4 +1,4 @@
-import Survey from "./components/vues/Survey";
+import Survey from "./components/views/Survey";
 import "./App.css";
 
 function App() {
