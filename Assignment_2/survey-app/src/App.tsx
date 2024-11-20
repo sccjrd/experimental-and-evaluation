@@ -1,4 +1,4 @@
-import Survey from "./components/views/Survey";
+import Survey from "./components/Survey";
 import "./App.css";
 
 function App() {
