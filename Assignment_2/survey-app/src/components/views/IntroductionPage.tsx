@@ -7,13 +7,18 @@ interface IntroductionPageProps {
 
 const IntroductionPage: React.FC<IntroductionPageProps> = ({ onNext }) => {
   return (
-    <div className="space-y-4 text-center">
-      <h1 className="text-2xl font-bold">Welcome to the Survey</h1>
-      <p>
-        Thank you for taking the time to participate in our survey. Your
-        feedback is valuable and will help us improve our services.
+    <div className="space-y-6 text-center">
+      <h1 className="text-3xl font-bold">Welcome to the Experiment</h1>
+      <p className="text-lg">
+        This study explores whether code identifiers are easier to read in{" "}
+        <strong>camelCase</strong> or <strong>kebab-case</strong>.
       </p>
-      <Button onClick={onNext}>Start Survey</Button>
+      <p className="text-lg">
+        You will be shown programming identifiers in both formats. Your task is
+        to identify them as quickly and accurately as possible.
+      </p>
+      <p className="text-lg">Focus and do your best. Click below to begin!</p>
+      <Button onClick={onNext}>Start Experiment!</Button>
     </div>
   );
 };
