@@ -70,6 +70,10 @@ app.post("/save-responses", async (req, res) => {
   }
 });
 
+// Remove or comment out this line in production
 // app.listen(PORT, () => {
-//   console.log(`Server in ascolto su http://localhost:${PORT}`);
+//   console.log(`Server listening on port ${PORT}`);
 // });
+
+// Export the app for Vercel
+module.exports = app;
