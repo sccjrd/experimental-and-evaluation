@@ -68,11 +68,11 @@ const Survey: React.FC = () => {
           ...prev,
           questions,
         }));
-        const payload={
-            generalInfo : surveyData.generalInfo, 
-            responses : surveyQuestionResponse.responses
-        }
-        fetch("http://localhost:3001/save-responses", {
+        const payload = {
+          generalInfo: surveyData.generalInfo,
+          responses: surveyQuestionResponse.responses,
+        };
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/save-responses`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),

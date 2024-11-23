@@ -118,8 +118,8 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
     if (currentIndex + 1 < totalQuestions) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      console.log("Survey completed. Responses:", responses);
-      console.log("Shuffled Indices:", shuffledIndices);
+      // console.log("Survey completed. Responses:", responses);
+      // console.log("Shuffled Indices:", shuffledIndices);
       onSubmit({ responses });
     }
   };

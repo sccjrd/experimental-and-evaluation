@@ -13,7 +13,11 @@ const client = new MongoClient(uri);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  })
+);
 app.use(bodyParser.json());
 
 app.post("/save-responses", async (req, res) => {
@@ -66,6 +70,6 @@ app.post("/save-responses", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server in ascolto su http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server in ascolto su http://localhost:${PORT}`);
+// });
