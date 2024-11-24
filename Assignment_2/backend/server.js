@@ -15,7 +15,10 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: [
+      "https://program-comprehension.vercel.app",
+      "http://localhost:5173",
+    ],
   })
 );
 app.use(bodyParser.json());
@@ -33,47 +36,19 @@ app.post("/save-responses", async (req, res) => {
     const collection = database.collection("responses");
     await collection.insertOne(dataToSave);
 
-    const data = await collection.find({}).toArray();
-    if (data.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "Nessun dato trovato per l'esportazione." });
-    }
-
-    const keys = Object.keys(data[0]);
-    const csvFilePath = path.join(__dirname, "responses.csv");
-    const fileStream = fs.createWriteStream(csvFilePath);
-
-    // Scrivi l'intestazione del CSV
-    fileStream.write(keys.join(",") + "\n");
-
-    // Scrivi i dati del CSV
-    data.forEach((doc) => {
-      const row = keys.map((key) => JSON.stringify(doc[key] || "")).join(",");
-      fileStream.write(row + "\n");
-    });
-
-    fileStream.end();
-    fileStream.on("finish", () => {
-      res.download(csvFilePath, "responses.csv", (err) => {
-        if (err) {
-          console.error("Errore durante il download:", err);
-          return res.status(500).send("Errore durante il download del file.");
-        }
-      });
-    });
+    res.status(200).json({ message: "Responses saved successfully." });
   } catch (err) {
-    console.error("Errore durante l'inserimento dei dati:", err);
-    res.status(500).json({ message: "Errore durante l'inserimento dei dati." });
+    console.error("Error during data insertion:", err);
+    res.status(500).json({ message: "Error during data insertion." });
   } finally {
     await client.close();
   }
 });
 
 // Remove or comment out this line in production
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 // Export the app for Vercel
-module.exports = app;
+// module.exports = app;

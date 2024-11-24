@@ -13,14 +13,156 @@ interface SurveyQuestionProps {
   }) => void;
 }
 
-const sentences = [
-  "move south",
-  "jump high",
-  "run fast",
-  "turn left",
-  "stand tall",
+// const predefinedQuestions = [
+//   {
+//     sentence: "move south",
+//     style: "camelCase",
+//     correctIdentifier: "moveSouth",
+//     distractors: ["moveSource", "moverSound", "moreSouth"],
+//   },
+//   {
+//     sentence: "move south",
+//     style: "kebab-case",
+//     correctIdentifier: "move-south",
+//     distractors: ["move-source", "mover-sound", "more-south"],
+//   },
+//   // Add more predefined questions
+// ];
+
+const predefinedQuestions = [
+  {
+    sentence: "move south",
+    style: "camelCase",
+    correctIdentifier: "moveSouth",
+    distractors: ["moveSource", "moverSound", "moreSouth"],
+  },
+  {
+    sentence: "move south",
+    style: "kebab-case",
+    correctIdentifier: "move-south",
+    distractors: ["move-source", "mover-sound", "more-south"],
+  },
+  {
+    sentence: "jump high",
+    style: "camelCase",
+    correctIdentifier: "jumpHigh",
+    distractors: ["jumpSource", "jumpsSound", "jumpMore"],
+  },
+  {
+    sentence: "jump high",
+    style: "kebab-case",
+    correctIdentifier: "jump-high",
+    distractors: ["jump-source", "jumps-sound", "jump-more"],
+  },
+  {
+    sentence: "run fast",
+    style: "camelCase",
+    correctIdentifier: "runFast",
+    distractors: ["runFastly", "runsSource", "runSlow"],
+  },
+  {
+    sentence: "run fast",
+    style: "kebab-case",
+    correctIdentifier: "run-fast",
+    distractors: ["run-fastly", "runs-source", "run-slow"],
+  },
+  {
+    sentence: "turn left",
+    style: "camelCase",
+    correctIdentifier: "turnLeft",
+    distractors: ["turnRight", "turnSlow", "turnLift"],
+  },
+  {
+    sentence: "turn left",
+    style: "kebab-case",
+    correctIdentifier: "turn-left",
+    distractors: ["turn-right", "turn-slow", "turn-lift"],
+  },
+  {
+    sentence: "stand tall",
+    style: "camelCase",
+    correctIdentifier: "standTall",
+    distractors: ["standSlow", "standFall", "standsHigh"],
+  },
+  {
+    sentence: "stand tall",
+    style: "kebab-case",
+    correctIdentifier: "stand-tall",
+    distractors: ["stand-slow", "stand-fall", "stands-high"],
+  },
+  {
+    sentence: "sit down",
+    style: "camelCase",
+    correctIdentifier: "sitDown",
+    distractors: ["sitUp", "sitsFast", "sittingDown"],
+  },
+  {
+    sentence: "sit down",
+    style: "kebab-case",
+    correctIdentifier: "sit-down",
+    distractors: ["sit-up", "sits-fast", "sitting-down"],
+  },
+  {
+    sentence: "walk forward",
+    style: "camelCase",
+    correctIdentifier: "walkForward",
+    distractors: ["walkFast", "walkingForward", "walksForward"],
+  },
+  {
+    sentence: "walk forward",
+    style: "kebab-case",
+    correctIdentifier: "walk-forward",
+    distractors: ["walk-fast", "walking-forward", "walks-forward"],
+  },
+  {
+    sentence: "look back",
+    style: "camelCase",
+    correctIdentifier: "lookBack",
+    distractors: ["looksBack", "lookingForward", "lookBehind"],
+  },
+  {
+    sentence: "look back",
+    style: "kebab-case",
+    correctIdentifier: "look-back",
+    distractors: ["looks-back", "looking-forward", "look-behind"],
+  },
+  {
+    sentence: "climb up",
+    style: "camelCase",
+    correctIdentifier: "climbUp",
+    distractors: ["climbsUp", "climbingFast", "climbSlow"],
+  },
+  {
+    sentence: "climb up",
+    style: "kebab-case",
+    correctIdentifier: "climb-up",
+    distractors: ["climbs-up", "climbing-fast", "climb-slow"],
+  },
+  {
+    sentence: "push forward",
+    style: "camelCase",
+    correctIdentifier: "pushForward",
+    distractors: ["pushBack", "pushingFast", "pushesForward"],
+  },
+  {
+    sentence: "push forward",
+    style: "kebab-case",
+    correctIdentifier: "push-forward",
+    distractors: ["push-back", "pushing-fast", "pushes-forward"],
+  },
+  {
+    sentence: "pull back",
+    style: "camelCase",
+    correctIdentifier: "pullBack",
+    distractors: ["pullForward", "pullingFast", "pullsBack"],
+  },
+  {
+    sentence: "pull back",
+    style: "kebab-case",
+    correctIdentifier: "pull-back",
+    distractors: ["pull-forward", "pulling-fast", "pulls-back"],
+  },
 ];
-const identifierStyles = ["camelCase", "kebab-case"]; // Identifier styles
 
 const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,70 +177,23 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   >([]);
   const [startTime, setStartTime] = useState<number>(0);
 
-  // Shuffle questions and keep their original indices
-  const [shuffledIndices] = useState(() => {
-    const indices = Array.from(
-      { length: sentences.length * identifierStyles.length },
-      (_, i) => i
-    );
-    for (let i = indices.length - 1; i > 0; i--) {
+  // Shuffle questions once for each user
+  const [shuffledQuestions] = useState(() => {
+    const shuffled = [...predefinedQuestions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    return indices;
+    return shuffled;
   });
 
-  const totalQuestions = sentences.length * identifierStyles.length;
-
   useEffect(() => {
-    // Start timing when the question loads
     setStartTime(Date.now());
   }, [currentIndex]);
 
-  const generateIdentifiers = (sentence: string, style: string) => {
-    const words = sentence.split(" ");
-    const correctIdentifier =
-      style === "camelCase"
-        ? words[0] + words[1][0].toUpperCase() + words[1].slice(1)
-        : words.join("-");
-
-    // Generate unique distractons
-    const distractors = new Set<string>();
-    while (distractors.size < 3) {
-      const randomWords = [...words].map((word) =>
-        word.slice(0, Math.max(1, Math.random() * word.length))
-      );
-      const distractor =
-        style === "camelCase"
-          ? randomWords[0] +
-            randomWords[1][0].toUpperCase() +
-            randomWords[1].slice(1)
-          : randomWords.join("-");
-      if (distractor !== correctIdentifier) {
-        distractors.add(distractor);
-      }
-    }
-
-    // Combine correct answer and distractors
-    const options = [correctIdentifier, ...Array.from(distractors)];
-
-    // Shuffle options
-    for (let i = options.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [options[i], options[j]] = [options[j], options[i]];
-    }
-
-    return { correctIdentifier, options };
-  };
-
   const handleAnswer = (selected: string) => {
-    const actualIndex = shuffledIndices[currentIndex];
-    const sentenceIndex = Math.floor(actualIndex / identifierStyles.length);
-    const styleIndex = actualIndex % identifierStyles.length;
-
-    const sentence = sentences[sentenceIndex];
-    const style = identifierStyles[styleIndex];
-    const { correctIdentifier } = generateIdentifiers(sentence, style);
+    const question = shuffledQuestions[currentIndex];
+    const { sentence, correctIdentifier } = question;
 
     const isCorrect = selected === correctIdentifier;
     const responseTime = Date.now() - startTime;
@@ -114,33 +209,38 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       },
     ]);
 
-    // Move to the next question or finish
-    if (currentIndex + 1 < totalQuestions) {
+    if (currentIndex + 1 < shuffledQuestions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      // console.log("Survey completed. Responses:", responses);
-      // console.log("Shuffled Indices:", shuffledIndices);
       onSubmit({ responses });
     }
   };
 
-  const actualIndex = shuffledIndices[currentIndex];
-  const sentenceIndex = Math.floor(actualIndex / identifierStyles.length);
-  const styleIndex = actualIndex % identifierStyles.length;
+  const currentQuestion = shuffledQuestions[currentIndex];
+  const options = [
+    ...currentQuestion.distractors,
+    currentQuestion.correctIdentifier,
+  ];
 
-  const sentence = sentences[sentenceIndex];
-  const style = identifierStyles[styleIndex];
-  const { options } = generateIdentifiers(sentence, style);
+  // Shuffle options for this question
+  const shuffledOptions = [...options];
+  for (let i = shuffledOptions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledOptions[i], shuffledOptions[j]] = [
+      shuffledOptions[j],
+      shuffledOptions[i],
+    ];
+  }
 
   return (
     <div className="space-y-4 text-center">
       <h2 className="text-xl font-bold">
-        Question {currentIndex + 1} of {totalQuestions}
+        Question {currentIndex + 1} of {shuffledQuestions.length}
       </h2>
-      <p className="text-lg">Identify the sentence:</p>
-      <p className="font-mono text-lg">{sentence}</p>
+      <p className="text-lg">Identify the correct identifier:</p>
+      <p className="font-mono text-lg">{currentQuestion.sentence}</p>
       <div className="grid grid-cols-2 gap-4">
-        {options.map((option) => (
+        {shuffledOptions.map((option) => (
           <Button key={option} onClick={() => handleAnswer(option)}>
             {option}
           </Button>
