@@ -13,12 +13,13 @@ const client = new MongoClient(uri);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+if (!process.env.CORS_ORIGIN) {
+  console.error("Error: CORS_ORIGIN is not defined in environment variables.");
+}
+
 app.use(
   cors({
-    origin: [
-      "https://program-comprehension.vercel.app",
-      "http://localhost:5173",
-    ],
+    origin: [process.env.CORS_ORIGIN, "http://localhost:5173"],
   })
 );
 app.use(bodyParser.json());

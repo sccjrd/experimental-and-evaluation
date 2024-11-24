@@ -15,6 +15,7 @@ type GeneralInfo = {
 
 type SurveyQuestionResponse = {
   responses: {
+    originalIndex: number; // Track the original question order
     sentence: string;
     identifier: string;
     selected: string;
@@ -32,7 +33,11 @@ const Survey: React.FC = () => {
   >("introduction");
   const [surveyData, setSurveyData] = useState<{
     generalInfo: GeneralInfo | null;
-    questions: { question: string; answer: string }[];
+    questions: {
+      originalIndex: number; // Include the original index for analysis
+      question: string;
+      answer: string;
+    }[];
   }>(() => {
     // Load survey data from local storage if available
     const savedData = localStorage.getItem("surveyData");
@@ -60,6 +65,7 @@ const Survey: React.FC = () => {
         // Adapt `responses` to the expected `questions` structure
         const surveyQuestionResponse = data as SurveyQuestionResponse;
         const questions = surveyQuestionResponse.responses.map((response) => ({
+          originalIndex: response.originalIndex,
           question: response.sentence,
           answer: response.selected,
         }));
@@ -68,10 +74,14 @@ const Survey: React.FC = () => {
           ...prev,
           questions,
         }));
+
+        // Prepare payload for backend
         const payload = {
           generalInfo: surveyData.generalInfo,
           responses: surveyQuestionResponse.responses,
         };
+
+        // Send data to backend
         fetch(`${import.meta.env.VITE_API_BASE_URL}/save-responses`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
