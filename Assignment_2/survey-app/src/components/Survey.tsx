@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { GeneralInfo } from "../types"; // Import the shared type
 import GeneralInfoForm from "./views/GeneralInfoForm";
 import SurveyQuestions from "./views/SurveyQuestions";
 import IntroductionPage from "./views/IntroductionPage";
 import EndPage from "./views/EndPage";
 
 // Define types for the data
-type GeneralInfo = {
-  name: string;
-  surname: string;
-  age: string;
-  profession: string;
-  codingFrequency: string;
-};
-
 type SurveyQuestionResponse = {
   responses: {
     originalIndex: number; // Track the original question order
     sentence: string;
     identifier: string;
-    selected: string;
-    isCorrect: boolean;
+    trials: number; // Number of attempts
     responseTime: number;
   }[];
 };
@@ -34,9 +26,11 @@ const Survey: React.FC = () => {
   const [surveyData, setSurveyData] = useState<{
     generalInfo: GeneralInfo | null;
     questions: {
-      originalIndex: number; // Include the original index for analysis
-      question: string;
-      answer: string;
+      originalIndex: number;
+      sentence: string;
+      identifier: string;
+      trials: number;
+      responseTime: number;
     }[];
   }>(() => {
     // Load survey data from local storage if available
@@ -53,21 +47,25 @@ const Survey: React.FC = () => {
 
   const handleNext = (data: HandleNextData) => {
     switch (currentView) {
-      case "generalInfo":
+      case "generalInfo": {
+        // Process and save general information
+        const generalInfo = data as GeneralInfo;
         setSurveyData((prev) => ({
           ...prev,
-          generalInfo: data as GeneralInfo,
+          generalInfo,
         }));
         setCurrentView("surveyQuestion");
         break;
-
+      }
       case "surveyQuestion": {
-        // Adapt `responses` to the expected `questions` structure
+        // Process survey question responses
         const surveyQuestionResponse = data as SurveyQuestionResponse;
         const questions = surveyQuestionResponse.responses.map((response) => ({
           originalIndex: response.originalIndex,
-          question: response.sentence,
-          answer: response.selected,
+          sentence: response.sentence,
+          identifier: response.identifier,
+          trials: response.trials,
+          responseTime: response.responseTime,
         }));
 
         setSurveyData((prev) => ({
@@ -106,9 +104,7 @@ const Survey: React.FC = () => {
           <IntroductionPage onNext={() => setCurrentView("generalInfo")} />
         );
       case "generalInfo":
-        return (
-          <GeneralInfoForm onSubmit={(data: GeneralInfo) => handleNext(data)} />
-        );
+        return <GeneralInfoForm onSubmit={handleNext} />;
       case "surveyQuestion":
         return (
           <SurveyQuestions

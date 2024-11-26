@@ -4,17 +4,16 @@ import { Button } from "@/components/ui/button";
 interface SurveyQuestionProps {
   onSubmit: (data: {
     responses: {
-      originalIndex: number; // Added to track the original question order
+      originalIndex: number; // Track the original question order
       sentence: string;
       identifier: string;
-      selected: string;
-      isCorrect: boolean;
-      responseTime: number;
+      trials: number; // Number of trials before the correct answer
+      responseTime: number; // Time taken to answer
     }[];
   }) => void;
 }
 
-// Predefined questions with `index` to track the original order
+// Predefined questions with index to track the original order
 const predefinedQuestions = [
   {
     index: 0,
@@ -179,68 +178,73 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       originalIndex: number; // Track the original question index
       sentence: string;
       identifier: string;
-      selected: string;
-      isCorrect: boolean;
-      responseTime: number;
+      trials: number; // Number of trials
+      responseTime: number; // Time taken
     }[]
   >([]);
   const [startTime, setStartTime] = useState<number>(0);
+  const [trials, setTrials] = useState<number>(0); // Count the number of clicks
+  const [disabledOptions, setDisabledOptions] = useState<string[]>([]); // Track incorrect answers
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
 
-  // Shuffle questions once for each user
-  const [shuffledQuestions] = useState(() => {
-    const shuffled = [...predefinedQuestions];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  });
+  // Store shuffled options for each question
+  const [shuffledQuestions] = useState(() =>
+    predefinedQuestions.map((question) => {
+      const options = [...question.distractors, question.correctIdentifier];
+
+      // Shuffle the options once and keep them fixed for the question
+      for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+      }
+
+      return { ...question, options };
+    })
+  );
 
   useEffect(() => {
+    // Reset state when a new question loads
     setStartTime(Date.now());
+    setTrials(0);
+    setDisabledOptions([]);
+    setFeedbackMessage(""); // Clear the feedback message
   }, [currentIndex]);
 
   const handleAnswer = (selected: string) => {
     const question = shuffledQuestions[currentIndex];
     const { index: originalIndex, sentence, correctIdentifier } = question;
 
-    const isCorrect = selected === correctIdentifier;
-    const responseTime = Date.now() - startTime;
+    if (selected === correctIdentifier) {
+      // Correct answer
+      const responseTime = Date.now() - startTime;
 
-    setResponses((prev) => [
-      ...prev,
-      {
-        originalIndex, // Save the original index
-        sentence,
-        identifier: correctIdentifier,
-        selected,
-        isCorrect,
-        responseTime,
-      },
-    ]);
+      // Save the response
+      setResponses((prev) => [
+        ...prev,
+        {
+          originalIndex,
+          sentence,
+          identifier: correctIdentifier,
+          trials: trials + 1, // Include the current attempt
+          responseTime,
+        },
+      ]);
 
-    if (currentIndex + 1 < shuffledQuestions.length) {
-      setCurrentIndex((prev) => prev + 1);
+      // Proceed to the next question
+      if (currentIndex + 1 < shuffledQuestions.length) {
+        setCurrentIndex((prev) => prev + 1);
+      } else {
+        onSubmit({ responses });
+      }
     } else {
-      onSubmit({ responses });
+      // Incorrect answer
+      setDisabledOptions((prev) => [...prev, selected]); // Disable the clicked button
+      setTrials((prev) => prev + 1); // Increment trial count
+      setFeedbackMessage("Wrong identifier, try again...");
     }
   };
 
   const currentQuestion = shuffledQuestions[currentIndex];
-  const options = [
-    ...currentQuestion.distractors,
-    currentQuestion.correctIdentifier,
-  ];
-
-  // Shuffle options for this question
-  const shuffledOptions = [...options];
-  for (let i = shuffledOptions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledOptions[i], shuffledOptions[j]] = [
-      shuffledOptions[j],
-      shuffledOptions[i],
-    ];
-  }
 
   return (
     <div className="space-y-4 text-center">
@@ -250,11 +254,30 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       <p className="text-lg">Identify the correct identifier:</p>
       <p className="font-mono text-lg">{currentQuestion.sentence}</p>
       <div className="grid grid-cols-2 gap-4">
-        {shuffledOptions.map((option) => (
-          <Button key={option} onClick={() => handleAnswer(option)}>
+        {currentQuestion.options.map((option) => (
+          <Button
+            key={option}
+            onClick={() => handleAnswer(option)}
+            disabled={disabledOptions.includes(option)} // Disable if already clicked
+            className={`${
+              disabledOptions.includes(option)
+                ? "bg-red-500 text-white " // Red for incorrect answers
+                : option === currentQuestion.correctIdentifier &&
+                  disabledOptions.includes(option)
+                ? "bg-green-500 text-white" // Green for correct answer
+                : ""
+            }`}
+          >
             {option}
           </Button>
         ))}
+      </div>
+      <div className="mt-4 min-h-[30px]">
+        {feedbackMessage ? (
+          <p className="text-lg text-red-400">{feedbackMessage}</p>
+        ) : (
+          <p className="invisible">&nbsp;</p>
+        )}
       </div>
     </div>
   );
