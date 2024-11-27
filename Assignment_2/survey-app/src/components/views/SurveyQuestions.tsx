@@ -155,20 +155,6 @@ const predefinedQuestions = [
     correctIdentifier: "push-forward",
     distractors: ["push-back", "pushing-fast", "pushes-forward"],
   },
-  {
-    index: 20,
-    sentence: "pull back",
-    style: "camelCase",
-    correctIdentifier: "pullBack",
-    distractors: ["pullForward", "pullingFast", "pullsBack"],
-  },
-  {
-    index: 21,
-    sentence: "pull back",
-    style: "kebab-case",
-    correctIdentifier: "pull-back",
-    distractors: ["pull-forward", "pulling-fast", "pulls-back"],
-  },
 ];
 
 interface Question {
@@ -237,6 +223,7 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
     if (selected === correctIdentifier) {
       // Correct answer
       const responseTime = Date.now() - startTime;
+      setFeedbackMessage("Correct!");
 
       // Save the response
       setResponses((prev) => [
@@ -250,12 +237,14 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
         },
       ]);
 
-      // Proceed to the next question
-      if (currentIndex + 1 < shuffledQuestions.length) {
-        setCurrentIndex((prev) => prev + 1);
-      } else {
-        onSubmit({ responses });
-      }
+      // Proceed to the next question after 300ms
+      setTimeout(() => {
+        if (currentIndex + 1 < shuffledQuestions.length) {
+          setCurrentIndex((prev) => prev + 1);
+        } else {
+          onSubmit({ responses });
+        }
+      }, 300);
     } else {
       // Incorrect answer
       setTrials((prev) => prev + 1); // Increment trial count
