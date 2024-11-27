@@ -4,6 +4,7 @@ import GeneralInfoForm from "./views/GeneralInfoForm";
 import SurveyQuestions from "./views/SurveyQuestions";
 import IntroductionPage from "./views/IntroductionPage";
 import EndPage from "./views/EndPage";
+import TryQuestionPage from "./views/TryQuestionPage"; // Import the new TryQuestionPage component
 
 // Define types for the data
 type SurveyQuestionResponse = {
@@ -21,7 +22,7 @@ type HandleNextData = GeneralInfo | SurveyQuestionResponse;
 
 const Survey: React.FC = () => {
   const [currentView, setCurrentView] = useState<
-    "introduction" | "generalInfo" | "surveyQuestion" | "end"
+    "introduction" | "tryQuestion" | "generalInfo" | "surveyQuestion" | "end"
   >("introduction");
   const [surveyData, setSurveyData] = useState<{
     generalInfo: GeneralInfo | null;
@@ -47,6 +48,14 @@ const Survey: React.FC = () => {
 
   const handleNext = (data: HandleNextData) => {
     switch (currentView) {
+      case "introduction": {
+        setCurrentView("tryQuestion");
+        break;
+      }
+      case "tryQuestion": {
+        setCurrentView("generalInfo");
+        break;
+      }
       case "generalInfo": {
         // Process and save general information
         const generalInfo = data as GeneralInfo;
@@ -101,8 +110,10 @@ const Survey: React.FC = () => {
     switch (currentView) {
       case "introduction":
         return (
-          <IntroductionPage onNext={() => setCurrentView("generalInfo")} />
+          <IntroductionPage onNext={() => setCurrentView("tryQuestion")} />
         );
+      case "tryQuestion":
+        return <TryQuestionPage onNext={() => setCurrentView("generalInfo")} />;
       case "generalInfo":
         return <GeneralInfoForm onSubmit={handleNext} />;
       case "surveyQuestion":

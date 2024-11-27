@@ -17,8 +17,14 @@ const IntroductionPage: React.FC<IntroductionPageProps> = ({ onNext }) => {
         You will be shown programming identifiers in both formats. Your task is
         to identify them as quickly and accurately as possible.
       </p>
-      <p className="text-lg">Focus and do your best. Click below to begin!</p>
-      <Button onClick={onNext}>Start Experiment!</Button>
+      <p className="text-lg">
+        Don't worry, we will explain to you what is an identifier
+      </p>
+      <p className="text-lg">
+        You will also have a change to try the experiment before starting
+      </p>
+      <p className="text-lg">Click below to to start!</p>
+      <Button onClick={onNext}>Show example</Button>
     </div>
   );
 };
