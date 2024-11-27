@@ -33,7 +33,7 @@ const generalInfoSchema = z
     if (data.hasCodingExperience === "Yes" && !data.codingFrequency) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Coding frequency is required if you have coding experience.",
+        message: "This field is required",
         path: ["codingFrequency"],
       });
     }
@@ -154,35 +154,45 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({ onSubmit }) => {
             </FormItem>
           )}
         />
-        {hasExperience === "Yes" && (
-          <FormField
-            name="codingFrequency"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>How Often Do You Write Code?</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select frequency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Daily">Daily</SelectItem>
-                      <SelectItem value="Weekly">Weekly</SelectItem>
-                      <SelectItem value="Monthly">Monthly</SelectItem>
-                      <SelectItem value="Rarely">Rarely</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        <Button type="submit">Next</Button>
+        <div
+          className={`transition-[max-height,opacity] duration-500 ease-in-out ${
+            hasExperience === "Yes"
+              ? "max-h-40 opacity-100"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          {hasExperience === "Yes" && ( // Render conditionally based on "Yes"
+            <FormField
+              name="codingFrequency"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>How Often Do You Write Code?</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select frequency" />
+                      </SelectTrigger>
+                      <SelectContent className="relative z-50">
+                        <SelectItem value="Daily">Daily</SelectItem>
+                        <SelectItem value="Weekly">Weekly</SelectItem>
+                        <SelectItem value="Monthly">Monthly</SelectItem>
+                        <SelectItem value="Rarely">Rarely</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+        <Button type="submit" className="mt-4">
+          Next
+        </Button>
       </form>
     </Form>
   );

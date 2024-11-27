@@ -171,6 +171,24 @@ const predefinedQuestions = [
   },
 ];
 
+interface Question {
+  index: number;
+  sentence: string;
+  style: string;
+  correctIdentifier: string;
+  distractors: string[];
+}
+
+const shuffleArray = (array: Question[]): Question[] => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+const shuffledQuestions = shuffleArray([...predefinedQuestions]);
+
 const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState<
@@ -184,35 +202,37 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   >([]);
   const [startTime, setStartTime] = useState<number>(0);
   const [trials, setTrials] = useState<number>(0); // Count the number of clicks
-  const [disabledOptions, setDisabledOptions] = useState<string[]>([]); // Track incorrect answers
+  const [shuffledOptions, setShuffledOptions] = useState<string[]>([]); // Track shuffled options
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
 
-  // Store shuffled options for each question
-  const [shuffledQuestions] = useState(() =>
-    predefinedQuestions.map((question) => {
-      const options = [...question.distractors, question.correctIdentifier];
-
-      // Shuffle the options once and keep them fixed for the question
-      for (let i = options.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [options[i], options[j]] = [options[j], options[i]];
-      }
-
-      return { ...question, options };
-    })
-  );
+  const currentQuestion = shuffledQuestions[currentIndex];
 
   useEffect(() => {
-    // Reset state when a new question loads
+    // Reset state and shuffle options when a new question loads
     setStartTime(Date.now());
     setTrials(0);
-    setDisabledOptions([]);
-    setFeedbackMessage(""); // Clear the feedback message
+    setFeedbackMessage("");
+    shuffleOptions();
   }, [currentIndex]);
 
+  const shuffleOptions = () => {
+    const options = [
+      ...currentQuestion.distractors,
+      currentQuestion.correctIdentifier,
+    ];
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    setShuffledOptions(options);
+  };
+
   const handleAnswer = (selected: string) => {
-    const question = shuffledQuestions[currentIndex];
-    const { index: originalIndex, sentence, correctIdentifier } = question;
+    const {
+      index: originalIndex,
+      sentence,
+      correctIdentifier,
+    } = currentQuestion;
 
     if (selected === correctIdentifier) {
       // Correct answer
@@ -238,13 +258,11 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       }
     } else {
       // Incorrect answer
-      setDisabledOptions((prev) => [...prev, selected]); // Disable the clicked button
       setTrials((prev) => prev + 1); // Increment trial count
-      setFeedbackMessage("Wrong identifier, try again...");
+      setFeedbackMessage("Wrong identifier, Try again...");
+      shuffleOptions(); // Reshuffle the options
     }
   };
-
-  const currentQuestion = shuffledQuestions[currentIndex];
 
   return (
     <div className="space-y-4 text-center">
@@ -254,27 +272,15 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       <p className="text-lg">Identify the correct identifier:</p>
       <p className="font-mono text-lg">{currentQuestion.sentence}</p>
       <div className="grid grid-cols-2 gap-4">
-        {currentQuestion.options.map((option) => (
-          <Button
-            key={option}
-            onClick={() => handleAnswer(option)}
-            disabled={disabledOptions.includes(option)} // Disable if already clicked
-            className={`${
-              disabledOptions.includes(option)
-                ? "bg-red-500 text-white " // Red for incorrect answers
-                : option === currentQuestion.correctIdentifier &&
-                  disabledOptions.includes(option)
-                ? "bg-green-500 text-white" // Green for correct answer
-                : ""
-            }`}
-          >
+        {shuffledOptions.map((option) => (
+          <Button key={option} onClick={() => handleAnswer(option)}>
             {option}
           </Button>
         ))}
       </div>
       <div className="mt-4 min-h-[30px]">
         {feedbackMessage ? (
-          <p className="text-lg text-red-400">{feedbackMessage}</p>
+          <p className="text-lg">{feedbackMessage}</p>
         ) : (
           <p className="invisible">&nbsp;</p>
         )}
