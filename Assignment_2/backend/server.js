@@ -46,6 +46,22 @@ app.post("/save-responses", async (req, res) => {
   }
 });
 
+app.get("/responses-count", async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db("survey_db");
+    const collection = database.collection("responses");
+    const count = await collection.countDocuments();
+
+    res.status(200).json({ count });
+  } catch (err) {
+    console.error("Error retrieving response count:", err);
+    res.status(500).json({ message: "Error retrieving response count." });
+  } finally {
+    await client.close();
+  }
+});
+
 // Remove or comment out this line in production
 // app.listen(PORT, () => {
 //   console.log(`Server listening on port ${PORT}`);
