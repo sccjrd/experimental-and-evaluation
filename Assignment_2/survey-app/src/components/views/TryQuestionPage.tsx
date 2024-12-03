@@ -25,7 +25,7 @@ const TryQuestionPage: React.FC<TryQuestionPageProps> = ({ onNext }) => {
   const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [showExample, setShowExample] = useState<boolean>(false);
-
+  const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false); // Track button disabled state
   const currentQuestion = tryQuestions[currentQuestionIndex];
 
   useEffect(() => {
@@ -47,7 +47,9 @@ const TryQuestionPage: React.FC<TryQuestionPageProps> = ({ onNext }) => {
   const handleAnswer = (selected: string) => {
     if (selected === currentQuestion.correctIdentifier) {
       setFeedbackMessage("Nice job!");
+      setButtonsDisabled(true);
       setTimeout(() => {
+        setButtonsDisabled(false); // Re-enable buttons
         if (currentQuestionIndex < tryQuestions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setFeedbackMessage("");
@@ -102,7 +104,11 @@ const TryQuestionPage: React.FC<TryQuestionPageProps> = ({ onNext }) => {
           <p className="font-mono text-lg">{currentQuestion.sentence}</p>
           <div className="grid grid-cols-2 gap-4">
             {shuffledOptions.map((option) => (
-              <Button key={option} onClick={() => handleAnswer(option)}>
+              <Button
+                key={option}
+                onClick={() => handleAnswer(option)}
+                disabled={buttonsDisabled}
+              >
                 {option}
               </Button>
             ))}
