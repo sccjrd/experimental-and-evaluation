@@ -17,11 +17,14 @@ if (!process.env.CORS_ORIGIN) {
   console.error("Error: CORS_ORIGIN is not defined in environment variables.");
 }
 
-app.use(
-  cors({
-    origin: [process.env.CORS_ORIGIN, "http://localhost:5173"],
-  })
-);
+const corsOptions = {
+  origin: [process.env.CORS_ORIGIN, "http://localhost:5173"], // Lista di origini consentite
+  methods: ["GET", "POST", "PUT", "DELETE"], // Metodi HTTP permessi
+  allowedHeaders: ["Content-Type", "Authorization"], // Intestazioni permessi
+};
+
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 
 app.post("/save-responses", async (req, res) => {
@@ -45,14 +48,12 @@ app.post("/save-responses", async (req, res) => {
     await client.close();
   }
 });
-
 app.get("/responses-count", async (req, res) => {
   try {
     await client.connect();
     const database = client.db("survey_db");
     const collection = database.collection("responses");
-    const count = await collection.countDocuments();
-
+    const count =  await collection.countDocuments();
     res.status(200).json({ count });
   } catch (err) {
     console.error("Error retrieving response count:", err);
