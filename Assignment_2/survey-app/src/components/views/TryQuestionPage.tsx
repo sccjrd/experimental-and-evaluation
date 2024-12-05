@@ -7,16 +7,16 @@ interface TryQuestionPageProps {
 
 const tryQuestions = [
   {
-    sentence: "move south",
+    sentence: "max angle",
     style: "camelCase",
-    correctIdentifier: "moveSouth",
-    distractors: ["moveSource", "moverSound", "moreSouth"],
+    correctIdentifier: "maxAngle",
+    distractors: ["minAngle", "moreAngle", "mixAngle"],
   },
   {
-    sentence: "move south",
+    sentence: "max angle",
     style: "kebab-case",
-    correctIdentifier: "move-south",
-    distractors: ["move-source", "mover-sound", "more-south"],
+    correctIdentifier: "max-angle",
+    distractors: ["min-angle", "more-angle", "mix-angle"],
   },
 ];
 
