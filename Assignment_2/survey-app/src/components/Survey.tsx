@@ -11,7 +11,7 @@ type SurveyQuestionResponse = {
   responses: {
     originalIndex: number; // Track the original question order
     sentence: string;
-    identifier: string;
+    style: string;
     trials: number; // Number of attempts
     responseTime: number;
   }[];
@@ -29,7 +29,7 @@ const Survey: React.FC = () => {
     questions: {
       originalIndex: number;
       sentence: string;
-      identifier: string;
+      style: string;
       trials: number;
       responseTime: number;
     }[];
@@ -72,7 +72,7 @@ const Survey: React.FC = () => {
         const questions = surveyQuestionResponse.responses.map((response) => ({
           originalIndex: response.originalIndex,
           sentence: response.sentence,
-          identifier: response.identifier,
+          style: response.style,
           trials: response.trials,
           responseTime: response.responseTime,
         }));

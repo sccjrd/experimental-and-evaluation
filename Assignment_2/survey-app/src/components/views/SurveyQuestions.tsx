@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SurveyQuestionProps {
   onSubmit: (data: {
     responses: {
       originalIndex: number;
       sentence: string;
-      identifier: string;
+      style: string;
       trials: number;
       responseTime: number;
     }[];
   }) => void;
 }
-
-
 
 const predefinedQuestionsEven = [
   {
@@ -323,7 +322,7 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
     {
       originalIndex: number;
       sentence: string;
-      identifier: string;
+      style: string;
       trials: number;
       responseTime: number;
     }[]
@@ -333,19 +332,25 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
-  const [questions, setQuestions] = useState<Question[]>([]); // Stato per le domande
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questionsReady, setQuestionsReady] = useState<boolean>(false); // Track if questions are ready
 
   // Effettua il fetch per ottenere il conteggio delle risposte e caricare le domande
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const N = await fetch(`${import.meta.env.VITE_API_BASE_URL}/responses-count`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }).then((res) => res.json());
-        const questions = N.count % 2 === 0 ? predefinedQuestionsEven : predefinedQuestionsOdd;
+        const N = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/responses-count`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        ).then((res) => res.json());
+        const questions =
+          N.count % 2 === 0 ? predefinedQuestionsEven : predefinedQuestionsOdd;
         const shuffledQuestions = shuffleArray([...questions]);
         setQuestions(shuffledQuestions); // Imposta le domande
+        setQuestionsReady(true);
       } catch (error) {
         console.error("Error fetching response count or questions", error);
       }
@@ -379,7 +384,12 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   };
 
   const handleAnswer = (selected: string) => {
-    const { index: originalIndex, sentence, correctIdentifier } = currentQuestion;
+    const {
+      index: originalIndex,
+      sentence,
+      style,
+      correctIdentifier,
+    } = currentQuestion;
 
     if (selected === correctIdentifier) {
       const responseTime = Date.now() - startTime;
@@ -392,7 +402,7 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
         {
           originalIndex,
           sentence,
-          identifier: correctIdentifier,
+          style,
           trials: trials + 1,
           responseTime,
         },
@@ -414,8 +424,20 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
     }
   };
 
-  if (!currentQuestion) {
-    return <div>Loading questions...</div>; // Aggiungi un caricamento iniziale
+  if (!questionsReady) {
+    return (
+      <div className="space-y-4 text-center">
+        <Skeleton className="h-8 w-48 mx-auto" />
+        <Skeleton className="h-6 w-64 mx-auto" />
+        <Skeleton className="h-6 w-32 mx-auto" />
+        <div className="grid grid-cols-2 gap-4">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      </div>
+    );
   }
 
   return (
