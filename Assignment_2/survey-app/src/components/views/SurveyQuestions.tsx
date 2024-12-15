@@ -15,7 +15,6 @@ interface SurveyQuestionProps {
 }
 
 const predefinedQuestionsEven = [
-  // Two-word sentences
   {
     index: 0,
     sentence: "shift left",
@@ -58,8 +57,6 @@ const predefinedQuestionsEven = [
     correctIdentifier: "exitQuickly",
     distractors: ["exitingQuickly", "exitsFast", "exitSlowly"],
   },
-
-  // Three-word sentences
   {
     index: 12,
     sentence: "highlight this section",
@@ -88,30 +85,28 @@ const predefinedQuestionsEven = [
   {
     index: 18,
     sentence: "color the background",
-    style: "camelCase",
-    correctIdentifier: "colorTheBackground",
+    style: "kebab-case",
+    correctIdentifier: "color-the-background",
     distractors: [
-      "colorsTheBackground",
-      "coloringTheBackground",
-      "coloredTheBackground",
+      "colors-the-background",
+      "coloring-the-background",
+      "colored-the-background",
     ],
   },
   {
     index: 20,
     sentence: "select a file",
-    style: "camelCase",
-    correctIdentifier: "selectAFile",
-    distractors: ["selectFiles", "selectingAFile", "selectedAFile"],
+    style: "kebab-case",
+    correctIdentifier: "select-a-file",
+    distractors: ["select-file", "selecting-a-file", "selected-a-file"],
   },
   {
     index: 22,
     sentence: "move to left",
-    style: "camelCase",
-    correctIdentifier: "moveToLeft",
-    distractors: ["movingToLeft", "movesToLeft", "movedToLeft"],
+    style: "kebab-case",
+    correctIdentifier: "move-to-left",
+    distractors: ["moving-to-left", "moves-to-left", "moved-to-left"],
   },
-
-  // Four-word sentences
   {
     index: 24,
     sentence: "navigate to home page",
@@ -181,175 +176,166 @@ const predefinedQuestionsEven = [
 ];
 
 const predefinedQuestionsOdd = [
-  // Two-word sentences
   {
     index: 1,
-    sentence: "shift up",
-    style: "camelCase",
-    correctIdentifier: "shiftUp",
-    distractors: ["shiftRight", "shiftedUp", "shiftingUp"],
+    sentence: "shift left",
+    style: "kebab-case",
+    correctIdentifier: "shift-left",
+    distractors: ["shift-lift", "shift-right", "shifted-left"],
   },
   {
     index: 3,
-    sentence: "zoom out",
-    style: "camelCase",
-    correctIdentifier: "zoomOut",
-    distractors: ["zoomIn", "zoomedOut", "zoomingOut"],
+    sentence: "zoom in",
+    style: "kebab-case",
+    correctIdentifier: "zoom-in",
+    distractors: ["zoom-out", "zoomed-in", "zooming-in"],
   },
   {
     index: 5,
-    sentence: "fade in",
-    style: "camelCase",
-    correctIdentifier: "fadeIn",
-    distractors: ["fadesIn", "fadeAway", "fadingIn"],
+    sentence: "fade out",
+    style: "kebab-case",
+    correctIdentifier: "fade-out",
+    distractors: ["fades-out", "fade-away", "fading-out"],
   },
   {
     index: 7,
-    sentence: "press pause",
-    style: "camelCase",
-    correctIdentifier: "pressPause",
-    distractors: ["pressedPause", "pressPlay", "pressingPause"],
+    sentence: "press start",
+    style: "kebab-case",
+    correctIdentifier: "press-start",
+    distractors: ["press-stop", "pressed-start", "pressing-start"],
   },
   {
     index: 9,
-    sentence: "align bottom",
-    style: "camelCase",
-    correctIdentifier: "alignBottom",
-    distractors: ["alignTop", "alignedBottom", "alignToBottom"],
+    sentence: "align top",
+    style: "kebab-case",
+    correctIdentifier: "align-top",
+    distractors: ["align-bottom", "align-to-top", "aligned-top"],
   },
   {
     index: 11,
-    sentence: "enter slowly",
-    style: "camelCase",
-    correctIdentifier: "enterSlowly",
-    distractors: ["entersSlowly", "enterFast", "enteringSlowly"],
+    sentence: "exit quickly",
+    style: "kebab-case",
+    correctIdentifier: "exit-quickly",
+    distractors: ["exiting-quickly", "exits-fast", "exit-slowly"],
   },
-
-  // Three-word sentences
   {
     index: 13,
-    sentence: "highlight entire paragraph",
-    style: "camelCase",
-    correctIdentifier: "highlightEntireParagraph",
+    sentence: "highlight this section",
+    style: "kebab-case",
+    correctIdentifier: "highlight-this-section",
     distractors: [
-      "highlightedEntireParagraph",
-      "highlightThisParagraph",
-      "highlightingEntireParagraph",
+      "highlighted-this-section",
+      "highlight-these-sections",
+      "highlights-this-section",
     ],
   },
   {
     index: 15,
-    sentence: "rotate large square",
-    style: "camelCase",
-    correctIdentifier: "rotateLargeSquare",
+    sentence: "rotate the circle",
+    style: "kebab-case",
+    correctIdentifier: "rotate-the-circle",
     distractors: [
-      "rotatedLargeSquare",
-      "rotatesLargeSquare",
-      "rotatingLargeSquare",
+      "rotating-the-circle",
+      "rotated-the-circle",
+      "rotates-the-circle",
     ],
   },
   {
     index: 17,
-    sentence: "expand drop-down menu",
-    style: "camelCase",
-    correctIdentifier: "expandDropDownMenu",
+    sentence: "expand main menu",
+    style: "kebab-case",
+    correctIdentifier: "expand-main-menu",
     distractors: [
-      "expandingDropDownMenu",
-      "expandedDropDownMenu",
-      "expandsDropDownMenu",
+      "expands-main-menu",
+      "expanding-main-menu",
+      "expanded-main-menu",
     ],
   },
   {
     index: 19,
-    sentence: "color active field",
+    sentence: "color the background",
     style: "camelCase",
-    correctIdentifier: "colorActiveField",
+    correctIdentifier: "colorTheBackground",
     distractors: [
-      "coloringActiveField",
-      "colorsActiveField",
-      "coloredActiveField",
+      "colorsTheBackground",
+      "coloringTheBackground",
+      "coloredTheBackground",
     ],
   },
   {
     index: 21,
-    sentence: "select all items",
+    sentence: "select a file",
     style: "camelCase",
-    correctIdentifier: "selectAllItems",
-    distractors: ["selectingAllItems", "selectedAllItems", "selectItems"],
+    correctIdentifier: "selectAFile",
+    distractors: ["selectFile", "selectingAFile", "selectedAFile"],
   },
   {
     index: 23,
-    sentence: "move to right",
+    sentence: "move to left",
     style: "camelCase",
-    correctIdentifier: "moveToRight",
-    distractors: ["movedToRight", "movesToRight", "movingToRight"],
+    correctIdentifier: "moveToLeft",
+    distractors: ["movingToLeft", "movesToLeft", "movedToLeft"],
   },
-
-  // Four-word sentences
   {
     index: 25,
-    sentence: "navigate to settings panel",
-    style: "kebab-case",
-    correctIdentifier: "navigate-to-settings-panel",
+    sentence: "navigate to home page",
+    style: "camelCase",
+    correctIdentifier: "navigateToHomePage",
     distractors: [
-      "navigate-to-main-panel",
-      "navigated-to-settings-panel",
-      "navigating-to-settings-panel",
+      "navigateToMainPage",
+      "navigationToHomePage",
+      "navigatingToHomePage",
     ],
   },
   {
     index: 27,
-    sentence: "adjust the screen brightness",
-    style: "kebab-case",
-    correctIdentifier: "adjust-the-screen-brightness",
+    sentence: "adjust to screen size",
+    style: "camelCase",
+    correctIdentifier: "adjustToScreenSize",
     distractors: [
-      "adjusting-the-screen-brightness",
-      "adjust-screen-brightness-level",
-      "adjust-the-brightness",
+      "adjustScreenDimensionsSize",
+      "adjustingToScreenSize",
+      "adjustToSceneSize",
     ],
   },
   {
     index: 29,
-    sentence: "sync all user data",
-    style: "kebab-case",
-    correctIdentifier: "sync-all-user-data",
+    sentence: "sync with backup data",
+    style: "camelCase",
+    correctIdentifier: "syncWithBackupData",
     distractors: [
-      "syncing-all-user-data",
-      "sync-user-data-backup",
-      "synchronizing-all-user-data",
+      "syncToBackupData",
+      "syncingWithBackupData",
+      "synchronizingWithBackupData",
     ],
   },
   {
     index: 31,
-    sentence: "add a text layer",
-    style: "kebab-case",
-    correctIdentifier: "add-a-text-layer",
-    distractors: [
-      "adding-a-text-layer",
-      "added-a-text-layer",
-      "add-a-text-layers",
-    ],
+    sentence: "add a new layer",
+    style: "camelCase",
+    correctIdentifier: "addANewLayer",
+    distractors: ["addedANewLayer", "addingANewLayer", "addANewLayers"],
   },
   {
     index: 33,
-    sentence: "link the previous version",
-    style: "kebab-case",
-    correctIdentifier: "link-the-previous-version",
+    sentence: "link the external source",
+    style: "camelCase",
+    correctIdentifier: "linkTheExternalSource",
     distractors: [
-      "link-previous-versions",
-      "linked-the-previous-version",
-      "linking-the-previous-version",
+      "linkTheExternalResources",
+      "linkedTheExternalSource",
+      "linkingTheExternalSource",
     ],
   },
   {
     index: 35,
-    sentence: "connect to secure server",
-    style: "kebab-case",
-    correctIdentifier: "connect-to-secure-server",
+    sentence: "connect to local network",
+    style: "camelCase",
+    correctIdentifier: "connectToLocalNetwork",
     distractors: [
-      "connect-to-shared-server",
-      "connecting-to-secure-server",
-      "connected-to-secure-server",
+      "connectToGlobalNetwork",
+      "connectingToLocalNetwork",
+      "connectedToLocalNetwork",
     ],
   },
 ];
@@ -450,9 +436,9 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       setFeedbackMessage("Correct!");
       setButtonsDisabled(true);
 
-      // Aggiungi la risposta al vettore delle risposte
-      setResponses((prev) => [
-        ...prev,
+      // Save the response
+      const newResponses = [
+        ...responses,
         {
           originalIndex,
           sentence,
@@ -460,17 +446,19 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
           trials: trials + 1,
           responseTime,
         },
-      ]);
+      ];
+      setResponses(newResponses);
 
-      // Vai alla prossima domanda dopo un breve ritardo
-      setTimeout(() => {
-        setButtonsDisabled(false);
-        if (currentIndex + 1 < questions.length) {
+      if (currentIndex + 1 < questions.length) {
+        // Proceed to the next question after 300ms
+        setTimeout(() => {
+          setButtonsDisabled(false);
           setCurrentIndex((prev) => prev + 1);
-        } else {
-          onSubmit({ responses });
-        }
-      }, 300);
+        }, 300);
+      } else {
+        // Submit the responses if it's the last question
+        onSubmit({ responses: newResponses });
+      }
     } else {
       setTrials((prev) => prev + 1);
       setFeedbackMessage("Wrong identifier, Try again...");
