@@ -36,27 +36,29 @@ const predefinedQuestionsEven = [
     correctIdentifier: "fadeOut",
     distractors: ["fadesOut", "fadeAway", "fadingOut"],
   },
+
   {
     index: 6,
     sentence: "press start",
-    style: "camelCase",
-    correctIdentifier: "pressStart",
-    distractors: ["pressStop", "pressedStart", "pressingStart"],
+    style: "kebab-case",
+    correctIdentifier: "press-start",
+    distractors: ["press-stop", "pressed-start", "pressing-start"],
   },
   {
     index: 8,
     sentence: "align top",
-    style: "camelCase",
-    correctIdentifier: "alignTop",
-    distractors: ["alignBottom", "alignToTop", "alignedTop"],
+    style: "kebab-case",
+    correctIdentifier: "align-top",
+    distractors: ["align-bottom", "align-to-top", "aligned-top"],
   },
   {
     index: 10,
     sentence: "exit quickly",
-    style: "camelCase",
-    correctIdentifier: "exitQuickly",
-    distractors: ["exitingQuickly", "exitsFast", "exitSlowly"],
+    style: "kebab-case",
+    correctIdentifier: "exit-quickly",
+    distractors: ["exiting-quickly", "exits-fast", "exit-slowly"],
   },
+
   {
     index: 12,
     sentence: "highlight this section",
@@ -82,6 +84,7 @@ const predefinedQuestionsEven = [
     correctIdentifier: "expandMainMenu",
     distractors: ["expandsMainMenu", "expandingMainMenu", "expandedMainMenu"],
   },
+
   {
     index: 18,
     sentence: "color the background",
@@ -107,8 +110,38 @@ const predefinedQuestionsEven = [
     correctIdentifier: "move-to-left",
     distractors: ["moving-to-left", "moves-to-left", "moved-to-left"],
   },
+
   {
     index: 24,
+    sentence: "add a new layer",
+    style: "camelCase",
+    correctIdentifier: "addANewLayer",
+    distractors: ["addedANewLayer", "addingANewLayer", "addANewLayers"],
+  },
+  {
+    index: 26,
+    sentence: "link the external source",
+    style: "camelCase",
+    correctIdentifier: "linkTheExternalSource",
+    distractors: [
+      "linkTheExternalResources",
+      "linkedTheExternalSource",
+      "linkingTheExternalSource",
+    ],
+  },
+  {
+    index: 28,
+    sentence: "connect to local network",
+    style: "camelCase",
+    correctIdentifier: "connectToLocalNetwork",
+    distractors: [
+      "connectToGlobalNetwork",
+      "connectingToLocalNetwork",
+      "connectedToLocalNetwork",
+    ],
+  },
+  {
+    index: 30,
     sentence: "navigate to home page",
     style: "kebab-case",
     correctIdentifier: "navigate-to-home-page",
@@ -119,7 +152,7 @@ const predefinedQuestionsEven = [
     ],
   },
   {
-    index: 26,
+    index: 32,
     sentence: "adjust to screen size",
     style: "kebab-case",
     correctIdentifier: "adjust-to-screen-size",
@@ -130,7 +163,7 @@ const predefinedQuestionsEven = [
     ],
   },
   {
-    index: 28,
+    index: 34,
     sentence: "sync with backup data",
     style: "kebab-case",
     correctIdentifier: "sync-with-backup-data",
@@ -138,39 +171,6 @@ const predefinedQuestionsEven = [
       "sync-to-backup-data",
       "syncing-with-backup-data",
       "synchronizing-with-backup-data",
-    ],
-  },
-  {
-    index: 30,
-    sentence: "add a new layer",
-    style: "kebab-case",
-    correctIdentifier: "add-a-new-layer",
-    distractors: [
-      "added-a-new-layer",
-      "adding-a-new-layer",
-      "add-a-new-layers",
-    ],
-  },
-  {
-    index: 32,
-    sentence: "link the external source",
-    style: "kebab-case",
-    correctIdentifier: "link-the-external-source",
-    distractors: [
-      "link-the-external-resources",
-      "linked-the-external-source",
-      "linking-the-external-source",
-    ],
-  },
-  {
-    index: 34,
-    sentence: "connect to local network",
-    style: "kebab-case",
-    correctIdentifier: "connect-to-local-network",
-    distractors: [
-      "connect-to-global-network",
-      "connecting-to-local-network",
-      "connected-to-local-network",
     ],
   },
 ];
@@ -200,23 +200,23 @@ const predefinedQuestionsOdd = [
   {
     index: 7,
     sentence: "press start",
-    style: "kebab-case",
-    correctIdentifier: "press-start",
-    distractors: ["press-stop", "pressed-start", "pressing-start"],
+    style: "camelCase",
+    correctIdentifier: "pressStart",
+    distractors: ["pressStop", "pressedStart", "pressingStart"],
   },
   {
     index: 9,
     sentence: "align top",
-    style: "kebab-case",
-    correctIdentifier: "align-top",
-    distractors: ["align-bottom", "align-to-top", "aligned-top"],
+    style: "camelCase",
+    correctIdentifier: "alignTop",
+    distractors: ["alignBottom", "alignToTop", "alignedTop"],
   },
   {
     index: 11,
     sentence: "exit quickly",
-    style: "kebab-case",
-    correctIdentifier: "exit-quickly",
-    distractors: ["exiting-quickly", "exits-fast", "exit-slowly"],
+    style: "camelCase",
+    correctIdentifier: "exitQuickly",
+    distractors: ["exitingQuickly", "exitsFast", "exitSlowly"],
   },
   {
     index: 13,
@@ -278,6 +278,39 @@ const predefinedQuestionsOdd = [
   },
   {
     index: 25,
+    sentence: "add a new layer",
+    style: "kebab-case",
+    correctIdentifier: "add-a-new-layer",
+    distractors: [
+      "added-a-new-layer",
+      "adding-a-new-layer",
+      "add-a-new-layers",
+    ],
+  },
+  {
+    index: 27,
+    sentence: "link the external source",
+    style: "kebab-case",
+    correctIdentifier: "link-the-external-source",
+    distractors: [
+      "link-the-external-resources",
+      "linked-the-external-source",
+      "linking-the-external-source",
+    ],
+  },
+  {
+    index: 29,
+    sentence: "connect to local network",
+    style: "kebab-case",
+    correctIdentifier: "connect-to-local-network",
+    distractors: [
+      "connect-to-global-network",
+      "connecting-to-local-network",
+      "connected-to-local-network",
+    ],
+  },
+  {
+    index: 31,
     sentence: "navigate to home page",
     style: "camelCase",
     correctIdentifier: "navigateToHomePage",
@@ -288,7 +321,7 @@ const predefinedQuestionsOdd = [
     ],
   },
   {
-    index: 27,
+    index: 33,
     sentence: "adjust to screen size",
     style: "camelCase",
     correctIdentifier: "adjustToScreenSize",
@@ -299,7 +332,7 @@ const predefinedQuestionsOdd = [
     ],
   },
   {
-    index: 29,
+    index: 35,
     sentence: "sync with backup data",
     style: "camelCase",
     correctIdentifier: "syncWithBackupData",
@@ -307,35 +340,6 @@ const predefinedQuestionsOdd = [
       "syncToBackupData",
       "syncingWithBackupData",
       "synchronizingWithBackupData",
-    ],
-  },
-  {
-    index: 31,
-    sentence: "add a new layer",
-    style: "camelCase",
-    correctIdentifier: "addANewLayer",
-    distractors: ["addedANewLayer", "addingANewLayer", "addANewLayers"],
-  },
-  {
-    index: 33,
-    sentence: "link the external source",
-    style: "camelCase",
-    correctIdentifier: "linkTheExternalSource",
-    distractors: [
-      "linkTheExternalResources",
-      "linkedTheExternalSource",
-      "linkingTheExternalSource",
-    ],
-  },
-  {
-    index: 35,
-    sentence: "connect to local network",
-    style: "camelCase",
-    correctIdentifier: "connectToLocalNetwork",
-    distractors: [
-      "connectToGlobalNetwork",
-      "connectingToLocalNetwork",
-      "connectedToLocalNetwork",
     ],
   },
 ];
