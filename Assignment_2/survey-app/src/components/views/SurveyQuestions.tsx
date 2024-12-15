@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -374,6 +374,7 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [questionsReady, setQuestionsReady] = useState<boolean>(false); // Track if questions are ready
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   // Effettua il fetch per ottenere il conteggio delle risposte e caricare le domande
   useEffect(() => {
@@ -466,6 +467,21 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
     }
   };
 
+  useEffect(() => {
+    buttonRefs.current.forEach((button) => {
+      if (button) {
+        const span = button.querySelector("span");
+        if (span) {
+          let fontSize = 16; // Initial font size
+          while (span.scrollWidth > button.clientWidth && fontSize > 10) {
+            fontSize -= 1;
+            span.style.fontSize = `${fontSize}px`;
+          }
+        }
+      }
+    });
+  }, [shuffledOptions]);
+
   if (!questionsReady) {
     return (
       <div className="space-y-4 text-center">
@@ -490,13 +506,14 @@ const SurveyQuestions: React.FC<SurveyQuestionProps> = ({ onSubmit }) => {
       <p className="text-lg">Identify the correct identifier:</p>
       <p className="font-mono text-lg">{currentQuestion.sentence}</p>
       <div className="grid grid-cols-2 gap-4">
-        {shuffledOptions.map((option) => (
+        {shuffledOptions.map((option, index) => (
           <Button
             key={option}
             onClick={() => handleAnswer(option)}
             disabled={buttonsDisabled}
+            ref={(el) => (buttonRefs.current[index] = el)}
           >
-            {option}
+            <span className="block text-center break-words">{option}</span>
           </Button>
         ))}
       </div>
