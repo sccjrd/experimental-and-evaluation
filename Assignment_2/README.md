@@ -2,6 +2,12 @@
 
 Survey App for Experiment 2 of the course "Experimental and Evaluation" of Università della Svizzera Italiana
 
+## Table of Contents
+
+- [How to Start the Application](#how-to-start-the-application)
+- [Analyzing the Data](#analyzing-the-data)
+- [Adapt with Your Own Questions](#adapt-with-your-own-questions)
+
 ## How to Start the Application
 
 ### Prerequisites
