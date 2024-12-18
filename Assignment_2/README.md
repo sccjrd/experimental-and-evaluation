@@ -106,6 +106,63 @@ Survey App for Experiment 2 of the course "Experimental and Evaluation" of Unive
 - The backend uses Express and [MongoDB with Atlas](https://www.mongodb.com/atlas) for handling API requests and data storage.
 - For the deployment of the frontend and backend, we used [Vercel](https://vercel.com).
 
+## Analyzing the Data
+
+To analyze the survey data, follow these steps:
+
+### Prerequisites
+
+- Python (version 3.6 or higher)
+- pip (Python package installer)
+
+### Setting Up the Analysis Environment
+
+1. **Download the Python code for data analysis:**
+
+   Download the [`survey_analysis.py`](survey_analysis.py) script from the repository.
+
+2. **Create a virtual environment (optional but recommended):**
+
+   ```sh
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. **Install the required Python packages:**
+
+   ```sh
+   pip install pandas matplotlib seaborn scipy
+   ```
+
+4. **Ensure the JSON file with all the responses from the database is present in the same directory and named `survey_responses.json`.**
+
+### Running the Analysis
+
+1. **Run the analysis script:**
+
+   ```sh
+   python survey_analysis.py
+   ```
+
+2. **View the results:**
+
+   The results will be saved in the `results` directory. You can find summary statistics and t-test results in both CSV and JSON formats, as well as various plots visualizing the data.
+
+   - `results/summary_results.csv`
+   - `results/summary_results.json`
+   - `results/t_test_results.csv`
+   - `results/t_test_results.json`
+   - `results/overall_comparison_violin.png`
+   - `results/coding_experience_boxplot.png`
+   - `results/age_group_boxplot.png`
+   - `results/word_count_scatter.png`
+   - `results/word_count_violin.png`
+
+### Additional Information
+
+- Ensure that the `survey_responses.json` file is present in the same directory before running the analysis script.
+- The analysis script processes the survey responses and generates statistical summaries and visualizations to help you understand the data better.
+
 ## Adapt with Your Own Questions
 
 If you want to conduct a similar survey but with different identifiers, follow these steps:
